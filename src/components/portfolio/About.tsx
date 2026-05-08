@@ -337,16 +337,6 @@ export const About = () => {
                     </p>
                     <p className="text-xs text-muted-foreground mt-2">{o.role}</p>
                     <p className="text-sm font-medium mt-2 text-foreground">{o.ctc}</p>
-                    <div className="mt-2 flex flex-wrap gap-1">
-                      {o.tech.slice(0, 3).map((t) => (
-                        <span
-                          key={t}
-                          className="px-1.5 py-0.5 rounded text-[10px] uppercase tracking-wider border border-border text-muted-foreground"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
                   </div>
                   <motion.button
                     type="button"

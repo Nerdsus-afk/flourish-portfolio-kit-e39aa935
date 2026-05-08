@@ -392,7 +392,6 @@ export const About = () => {
                 className="text-amber underline-offset-4 hover:underline"
                 onClick={() => {
                   setCategoryFilter(ALL);
-                  setTechFilter(ALL);
                 }}
               >
                 Reset filters

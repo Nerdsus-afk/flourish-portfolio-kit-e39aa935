@@ -538,19 +538,6 @@ export const About = () => {
                 </span>
               </div>
 
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-amber mb-2">Tech & focus</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {details.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="px-2 py-0.5 rounded text-[11px] border border-border text-muted-foreground"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
 
               <div>
                 <p className="text-[10px] uppercase tracking-[0.2em] text-amber mb-2">Role highlights</p>

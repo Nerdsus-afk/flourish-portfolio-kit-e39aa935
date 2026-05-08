@@ -296,7 +296,7 @@ export const About = () => {
                 animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
                 exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10, scale: 0.98 }}
                 transition={{ duration: 0.45, delay: idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={prefersReducedMotion ? undefined : { y: -6, scale: 1.02 }}
+                whileHover={prefersReducedMotion ? undefined : { y: -6, scale: 1.02, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } }}
                 onClick={() => setDetailsCompany(o.company)}
                 role="button"
                 tabIndex={0}

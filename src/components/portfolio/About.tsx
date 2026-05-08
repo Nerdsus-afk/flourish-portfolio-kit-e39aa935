@@ -296,7 +296,7 @@ export const About = () => {
                 animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
                 exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10, scale: 0.98 }}
                 transition={{ duration: 0.45, delay: idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={prefersReducedMotion ? undefined : { y: -6, scale: 1.02 }}
+                whileHover={prefersReducedMotion ? undefined : { y: -6, scale: 1.02, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } }}
                 onClick={() => setDetailsCompany(o.company)}
                 role="button"
                 tabIndex={0}
@@ -315,15 +315,19 @@ export const About = () => {
               >
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-[0.06] transition-opacity duration-500"
+                  className="pointer-events-none absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-[0.12] transition-opacity duration-300 ease-out"
                 />
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute -inset-px rounded-2xl ring-1 ring-amber/0 group-hover/card:ring-amber/30 transition-[box-shadow] duration-500"
+                  className="pointer-events-none absolute -inset-24 rounded-full bg-[radial-gradient(circle_at_center,hsl(var(--amber)/0.28),transparent_60%)] opacity-0 blur-2xl group-hover/card:opacity-100 transition-opacity duration-300 ease-out"
                 />
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute -top-1/2 -left-1/2 w-[60%] h-[200%] rotate-12 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-120%] group-hover/card:translate-x-[260%] transition-transform duration-[1100ms] ease-out"
+                  className="pointer-events-none absolute -inset-px rounded-2xl ring-1 ring-amber/0 group-hover/card:ring-amber/40 transition-[box-shadow] duration-300"
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute -top-1/2 -left-1/2 w-[60%] h-[200%] rotate-12 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-120%] group-hover/card:translate-x-[260%] transition-transform duration-[900ms] ease-out"
                 />
                 {o.chosen && (
                   <span className="absolute top-3 left-3 inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.18em] text-amber font-medium z-10">
@@ -350,9 +354,9 @@ export const About = () => {
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     whileTap={prefersReducedMotion ? undefined : { scale: 0.96 }}
-                    className="relative w-24 h-24 aspect-square rounded-xl bg-white flex items-center justify-center p-2.5 shrink-0 border border-border overflow-hidden cursor-zoom-in transition-shadow duration-500 group-hover/card:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+                    className="relative w-24 h-24 aspect-square rounded-xl bg-white flex items-center justify-center p-2.5 shrink-0 border border-border overflow-hidden cursor-zoom-in [perspective:800px] transition-shadow duration-300 group-hover/card:shadow-[0_12px_30px_-10px_hsl(var(--amber)/0.55)] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
                   >
-                    <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-10 transition-opacity duration-500" />
+                    <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-15 transition-opacity duration-300" />
                     <img
                       src={o.logo}
                       srcSet={`${o.logo} 1x, ${o.logo} 2x`}
@@ -364,8 +368,8 @@ export const About = () => {
                       decoding="async"
                       fetchPriority="high"
                       draggable={false}
-                      style={{ imageRendering: "auto" }}
-                      className="relative w-full h-full max-w-full max-h-full [image-rendering:auto] [-webkit-backface-visibility:hidden] [transform:translateZ(0)] object-contain transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:scale-110 group-hover/card:-rotate-3 motion-reduce:transition-none motion-reduce:group-hover/card:scale-100 motion-reduce:group-hover/card:rotate-0"
+                      style={{ imageRendering: "auto", transformStyle: "preserve-3d" }}
+                      className="relative w-full h-full max-w-full max-h-full [-webkit-backface-visibility:hidden] object-contain will-change-transform transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] [transform:translateZ(0)_rotateX(0)_rotateY(0)_scale(1)] group-hover/card:[transform:translateZ(20px)_rotateX(8deg)_rotateY(-12deg)_scale(1.12)] motion-reduce:transition-none motion-reduce:group-hover/card:[transform:none]"
                     />
                   </motion.button>
                 </div>

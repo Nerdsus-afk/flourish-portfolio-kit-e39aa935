@@ -406,66 +406,6 @@ export const About = () => {
       </motion.div>
     </div>
 
-    {/* Logo lightbox */}
-    <Dialog open={open} onOpenChange={(v) => !v && setLightboxIndex(null)}>
-      <DialogContent className="max-w-3xl border-border bg-background/95 backdrop-blur p-0 overflow-hidden">
-        <AnimatePresence mode="wait">
-          {current && (
-            <motion.div
-              key={current.company}
-              initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="relative"
-            >
-              <DialogTitle className="sr-only">{current.company} logo</DialogTitle>
-              <div className="aspect-[4/3] sm:aspect-[16/10] w-full bg-white flex items-center justify-center p-10 sm:p-16">
-                <img
-                  src={current.logo}
-                  alt={`${current.company} company logo, enlarged view`}
-                  className="max-w-full max-h-full object-contain select-none"
-                  draggable={false}
-                />
-              </div>
-
-              <div className="flex items-center justify-between gap-4 px-6 py-4 border-t border-border bg-card">
-                <div className="min-w-0">
-                  <p className="font-display text-lg leading-tight text-foreground truncate">
-                    {current.company}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1 truncate">
-                    {current.role} · {current.ctc}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-xs text-muted-foreground tabular-nums mr-1">
-                    {(lightboxIndex ?? 0) + 1} / {offers.length}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={prev}
-                    aria-label="Previous logo"
-                    className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:bg-amber hover:border-amber hover:text-primary-foreground transition-colors"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={next}
-                    aria-label="Next logo"
-                    className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:bg-amber hover:border-amber hover:text-primary-foreground transition-colors"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </DialogContent>
-    </Dialog>
-
     {/* Details modal */}
     <Dialog open={!!details} onOpenChange={(v) => !v && setDetailsCompany(null)}>
       <DialogContent className="max-w-2xl border-border bg-background/95 backdrop-blur p-0 overflow-hidden">

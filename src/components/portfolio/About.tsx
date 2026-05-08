@@ -315,15 +315,19 @@ export const About = () => {
               >
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-[0.06] transition-opacity duration-500"
+                  className="pointer-events-none absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-[0.12] transition-opacity duration-300 ease-out"
                 />
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute -inset-px rounded-2xl ring-1 ring-amber/0 group-hover/card:ring-amber/30 transition-[box-shadow] duration-500"
+                  className="pointer-events-none absolute -inset-24 rounded-full bg-[radial-gradient(circle_at_center,hsl(var(--amber)/0.28),transparent_60%)] opacity-0 blur-2xl group-hover/card:opacity-100 transition-opacity duration-300 ease-out"
                 />
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute -top-1/2 -left-1/2 w-[60%] h-[200%] rotate-12 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-120%] group-hover/card:translate-x-[260%] transition-transform duration-[1100ms] ease-out"
+                  className="pointer-events-none absolute -inset-px rounded-2xl ring-1 ring-amber/0 group-hover/card:ring-amber/40 transition-[box-shadow] duration-300"
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute -top-1/2 -left-1/2 w-[60%] h-[200%] rotate-12 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-120%] group-hover/card:translate-x-[260%] transition-transform duration-[900ms] ease-out"
                 />
                 {o.chosen && (
                   <span className="absolute top-3 left-3 inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.18em] text-amber font-medium z-10">

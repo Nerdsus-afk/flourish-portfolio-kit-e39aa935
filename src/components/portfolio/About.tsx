@@ -337,16 +337,6 @@ export const About = () => {
                     </p>
                     <p className="text-xs text-muted-foreground mt-2">{o.role}</p>
                     <p className="text-sm font-medium mt-2 text-foreground">{o.ctc}</p>
-                    <div className="mt-2 flex flex-wrap gap-1">
-                      {o.tech.slice(0, 3).map((t) => (
-                        <span
-                          key={t}
-                          className="px-1.5 py-0.5 rounded text-[10px] uppercase tracking-wider border border-border text-muted-foreground"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
                   </div>
                   <motion.button
                     type="button"
@@ -359,11 +349,10 @@ export const About = () => {
                     whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    whileHover={prefersReducedMotion ? undefined : { scale: 1.05, rotate: -1 }}
                     whileTap={prefersReducedMotion ? undefined : { scale: 0.96 }}
-                    className="relative w-24 h-24 aspect-square rounded-xl bg-white flex items-center justify-center p-2.5 shrink-0 border border-border overflow-hidden group/logo cursor-zoom-in transition-shadow hover:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+                    className="relative w-24 h-24 aspect-square rounded-xl bg-white flex items-center justify-center p-2.5 shrink-0 border border-border overflow-hidden cursor-zoom-in transition-shadow duration-500 group-hover/card:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
                   >
-                    <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/logo:opacity-10 transition-opacity duration-500" />
+                    <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-10 transition-opacity duration-500" />
                     <img
                       src={o.logo}
                       srcSet={`${o.logo} 1x, ${o.logo} 2x`}
@@ -376,7 +365,7 @@ export const About = () => {
                       fetchPriority="high"
                       draggable={false}
                       style={{ imageRendering: "auto" }}
-                      className="relative w-full h-full max-w-full max-h-full [image-rendering:auto] [-webkit-backface-visibility:hidden] [transform:translateZ(0)] object-contain transition-transform duration-500 ease-out group-hover/logo:scale-110"
+                      className="relative w-full h-full max-w-full max-h-full [image-rendering:auto] [-webkit-backface-visibility:hidden] [transform:translateZ(0)] object-contain transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:scale-110 group-hover/card:-rotate-3 motion-reduce:transition-none motion-reduce:group-hover/card:scale-100 motion-reduce:group-hover/card:rotate-0"
                     />
                   </motion.button>
                 </div>

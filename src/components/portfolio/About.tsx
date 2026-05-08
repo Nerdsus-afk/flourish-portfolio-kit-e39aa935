@@ -20,7 +20,7 @@ type Offer = {
   ctc: string;
   chosen: boolean;
   logo: string;
-  category: "Banking & FinTech" | "Consulting" | "IT Services";
+  category: "Banking & FinTech" | "IT Services & Consulting";
   tech: string[];
   location: string;
   highlights: string[];

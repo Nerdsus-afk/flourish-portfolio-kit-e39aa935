@@ -349,11 +349,10 @@ export const About = () => {
                     whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    whileHover={prefersReducedMotion ? undefined : { scale: 1.05, rotate: -1 }}
                     whileTap={prefersReducedMotion ? undefined : { scale: 0.96 }}
-                    className="relative w-24 h-24 aspect-square rounded-xl bg-white flex items-center justify-center p-2.5 shrink-0 border border-border overflow-hidden group/logo cursor-zoom-in transition-shadow hover:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+                    className="relative w-24 h-24 aspect-square rounded-xl bg-white flex items-center justify-center p-2.5 shrink-0 border border-border overflow-hidden cursor-zoom-in transition-shadow duration-500 group-hover/card:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
                   >
-                    <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/logo:opacity-10 transition-opacity duration-500" />
+                    <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-10 transition-opacity duration-500" />
                     <img
                       src={o.logo}
                       srcSet={`${o.logo} 1x, ${o.logo} 2x`}

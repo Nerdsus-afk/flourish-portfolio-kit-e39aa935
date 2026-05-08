@@ -20,7 +20,7 @@ type Offer = {
   ctc: string;
   chosen: boolean;
   logo: string;
-  category: "Banking & FinTech" | "Consulting" | "IT Services";
+  category: "Banking & FinTech" | "IT Services & Consulting";
   tech: string[];
   location: string;
   highlights: string[];
@@ -37,7 +37,7 @@ const offers: Offer[] = [
     logo: bofaLogo,
     category: "Banking & FinTech",
     tech: ["Java", "Spring", "SQL", "Microservices"],
-    location: "Chennai / Hyderabad",
+    location: "Chennai",
     description:
       "Joining BofA's Global Technology org as an Apprentice Software Engineer, contributing to enterprise banking platforms used by millions worldwide.",
     highlights: [
@@ -56,7 +56,7 @@ const offers: Offer[] = [
     ctc: "11 LPA",
     chosen: false,
     logo: accentureLogo,
-    category: "Consulting",
+    category: "IT Services & Consulting",
     tech: ["Cloud", "AI/ML", "Full-Stack", "DevOps"],
     location: "PAN India",
     description:
@@ -77,7 +77,7 @@ const offers: Offer[] = [
     ctc: "7 LPA",
     chosen: false,
     logo: infosysLogo,
-    category: "IT Services",
+    category: "IT Services & Consulting",
     tech: ["Java", "Cloud", "Full-Stack", "System Design"],
     location: "Mysuru / Bengaluru",
     description:
@@ -98,7 +98,7 @@ const offers: Offer[] = [
     ctc: "4 LPA",
     chosen: false,
     logo: cognizantLogo,
-    category: "IT Services",
+    category: "IT Services & Consulting",
     tech: ["Java", "Web", "Databases"],
     location: "Chennai",
     description:
@@ -128,7 +128,7 @@ export const About = () => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [detailsCompany, setDetailsCompany] = useState<string | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string>(ALL);
-  const [techFilter, setTechFilter] = useState<string>(ALL);
+  
 
   const open = lightboxIndex !== null;
   const current = open ? offers[lightboxIndex!] : null;
@@ -141,19 +141,12 @@ export const About = () => {
     () => [ALL, ...Array.from(new Set(offers.map((o) => o.category)))],
     []
   );
-  const techs = useMemo(
-    () => [ALL, ...Array.from(new Set(offers.flatMap((o) => o.tech)))],
-    []
-  );
-
   const filteredOffers = useMemo(
     () =>
       offers.filter(
-        (o) =>
-          (categoryFilter === ALL || o.category === categoryFilter) &&
-          (techFilter === ALL || o.tech.includes(techFilter))
+        (o) => categoryFilter === ALL || o.category === categoryFilter
       ),
-    [categoryFilter, techFilter]
+    [categoryFilter]
   );
 
   const next = useCallback(
@@ -291,27 +284,6 @@ export const About = () => {
                 );
               })}
             </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground mr-1">Tech</span>
-              {techs.map((t) => {
-                const active = techFilter === t;
-                return (
-                  <button
-                    key={t}
-                    type="button"
-                    onClick={() => setTechFilter(t)}
-                    aria-pressed={active}
-                    className={`px-3 py-1 rounded-full text-xs border transition-colors ${
-                      active
-                        ? "bg-amber border-amber text-primary-foreground"
-                        : "border-border text-muted-foreground hover:border-amber/60 hover:text-foreground"
-                    }`}
-                  >
-                    {t}
-                  </button>
-                );
-              })}
-            </div>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-3">
@@ -420,7 +392,6 @@ export const About = () => {
                 className="text-amber underline-offset-4 hover:underline"
                 onClick={() => {
                   setCategoryFilter(ALL);
-                  setTechFilter(ALL);
                 }}
               >
                 Reset filters

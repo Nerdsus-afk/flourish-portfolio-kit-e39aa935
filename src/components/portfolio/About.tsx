@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, Building2, ChevronLeft, ChevronRight, ExternalLink, Briefcase, GraduationCap, Globe, Filter } from "lucide-react";
+import { CheckCircle2, Building2, ExternalLink, Briefcase, GraduationCap, Globe, Filter } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import bofaLogo from "@/assets/logos/bofa.png";
 import accentureLogo from "@/assets/logos/accenture.png";
@@ -125,13 +125,9 @@ export const About = () => {
     ? { opacity: 1 }
     : { opacity: 1, y: 0 };
 
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [detailsCompany, setDetailsCompany] = useState<string | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string>(ALL);
-  
 
-  const open = lightboxIndex !== null;
-  const current = open ? offers[lightboxIndex!] : null;
   const details = useMemo(
     () => offers.find((o) => o.company === detailsCompany) ?? null,
     [detailsCompany]
@@ -148,25 +144,6 @@ export const About = () => {
       ),
     [categoryFilter]
   );
-
-  const next = useCallback(
-    () => setLightboxIndex((i) => (i === null ? i : (i + 1) % offers.length)),
-    []
-  );
-  const prev = useCallback(
-    () => setLightboxIndex((i) => (i === null ? i : (i - 1 + offers.length) % offers.length)),
-    []
-  );
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") next();
-      else if (e.key === "ArrowLeft") prev();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, next, prev]);
 
   return (
   <section id="about" className="py-32 relative scroll-mt-24">
@@ -342,19 +319,13 @@ export const About = () => {
                     <p className="text-xs text-muted-foreground mt-2">{o.role}</p>
                     <p className="text-sm font-medium mt-2 text-foreground">{o.ctc}</p>
                   </div>
-                  <motion.button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setLightboxIndex(offers.indexOf(o));
-                    }}
-                    aria-label={`Open larger view of ${o.company} logo`}
+                  <motion.div
+                    aria-hidden="true"
                     initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.9, y: 8 }}
                     whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    whileTap={prefersReducedMotion ? undefined : { scale: 0.96 }}
-                    className="relative w-24 h-24 aspect-square rounded-xl bg-white flex items-center justify-center p-2.5 shrink-0 border border-border overflow-hidden cursor-zoom-in [perspective:800px] transition-shadow duration-300 group-hover/card:shadow-[0_12px_30px_-10px_hsl(var(--amber)/0.55)] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+                    className="relative w-24 h-24 aspect-square rounded-xl bg-white flex items-center justify-center p-2.5 shrink-0 border border-border overflow-hidden [perspective:800px] transition-shadow duration-300 group-hover/card:shadow-[0_12px_30px_-10px_hsl(var(--amber)/0.55)]"
                   >
                     <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-15 transition-opacity duration-300" />
                     <img
@@ -371,7 +342,7 @@ export const About = () => {
                       style={{ imageRendering: "auto", transformStyle: "preserve-3d" }}
                       className="relative w-full h-full max-w-full max-h-full [-webkit-backface-visibility:hidden] object-contain will-change-transform transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] [transform:translateZ(0)_rotateX(0)_rotateY(0)_scale(1)] group-hover/card:[transform:translateZ(20px)_rotateX(8deg)_rotateY(-12deg)_scale(1.12)] motion-reduce:transition-none motion-reduce:group-hover/card:[transform:none]"
                     />
-                  </motion.button>
+                  </motion.div>
                 </div>
               </motion.div>
             ))}
@@ -435,66 +406,6 @@ export const About = () => {
       </motion.div>
     </div>
 
-    {/* Logo lightbox */}
-    <Dialog open={open} onOpenChange={(v) => !v && setLightboxIndex(null)}>
-      <DialogContent className="max-w-3xl border-border bg-background/95 backdrop-blur p-0 overflow-hidden">
-        <AnimatePresence mode="wait">
-          {current && (
-            <motion.div
-              key={current.company}
-              initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="relative"
-            >
-              <DialogTitle className="sr-only">{current.company} logo</DialogTitle>
-              <div className="aspect-[4/3] sm:aspect-[16/10] w-full bg-white flex items-center justify-center p-10 sm:p-16">
-                <img
-                  src={current.logo}
-                  alt={`${current.company} company logo, enlarged view`}
-                  className="max-w-full max-h-full object-contain select-none"
-                  draggable={false}
-                />
-              </div>
-
-              <div className="flex items-center justify-between gap-4 px-6 py-4 border-t border-border bg-card">
-                <div className="min-w-0">
-                  <p className="font-display text-lg leading-tight text-foreground truncate">
-                    {current.company}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1 truncate">
-                    {current.role} · {current.ctc}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-xs text-muted-foreground tabular-nums mr-1">
-                    {(lightboxIndex ?? 0) + 1} / {offers.length}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={prev}
-                    aria-label="Previous logo"
-                    className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:bg-amber hover:border-amber hover:text-primary-foreground transition-colors"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={next}
-                    aria-label="Next logo"
-                    className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:bg-amber hover:border-amber hover:text-primary-foreground transition-colors"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </DialogContent>
-    </Dialog>
-
     {/* Details modal */}
     <Dialog open={!!details} onOpenChange={(v) => !v && setDetailsCompany(null)}>
       <DialogContent className="max-w-2xl border-border bg-background/95 backdrop-blur p-0 overflow-hidden">
@@ -538,19 +449,6 @@ export const About = () => {
                 </span>
               </div>
 
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-amber mb-2">Tech & focus</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {details.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="px-2 py-0.5 rounded text-[11px] border border-border text-muted-foreground"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
 
               <div>
                 <p className="text-[10px] uppercase tracking-[0.2em] text-amber mb-2">Role highlights</p>

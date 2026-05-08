@@ -365,7 +365,7 @@ export const About = () => {
                       fetchPriority="high"
                       draggable={false}
                       style={{ imageRendering: "auto" }}
-                      className="relative w-full h-full max-w-full max-h-full [image-rendering:auto] [-webkit-backface-visibility:hidden] [transform:translateZ(0)] object-contain transition-transform duration-500 ease-out group-hover/logo:scale-110"
+                      className="relative w-full h-full max-w-full max-h-full [image-rendering:auto] [-webkit-backface-visibility:hidden] [transform:translateZ(0)] object-contain transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:scale-110 group-hover/card:-rotate-3 motion-reduce:transition-none motion-reduce:group-hover/card:scale-100 motion-reduce:group-hover/card:rotate-0"
                     />
                   </motion.button>
                 </div>

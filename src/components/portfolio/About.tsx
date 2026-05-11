@@ -128,6 +128,7 @@ export const About = () => {
   const [detailsCompany, setDetailsCompany] = useState<string | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string>(ALL);
   const [offersReady, setOffersReady] = useState(false);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   useEffect(() => {
     const t = setTimeout(() => setOffersReady(true), 350);

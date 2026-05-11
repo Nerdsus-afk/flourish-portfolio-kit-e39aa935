@@ -336,6 +336,14 @@ export const About = () => {
                     <CheckCircle2 className="w-3 h-3" /> Chosen
                   </span>
                 )}
+                <span
+                  aria-hidden
+                  className="absolute top-3 right-3 z-10 inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-muted-foreground/80 group-hover/card:text-amber group-focus-visible/card:text-amber transition-colors duration-300"
+                >
+                  <MousePointerClick className="w-3 h-3 animate-pulse motion-reduce:animate-none" />
+                  <span className="hidden sm:inline">Click to view</span>
+                  <ArrowRight className="w-3 h-3 translate-x-0 group-hover/card:translate-x-1 group-focus-visible/card:translate-x-1 transition-transform duration-300 ease-out motion-reduce:transition-none motion-reduce:group-hover/card:translate-x-0 motion-reduce:group-focus-visible/card:translate-x-0" />
+                </span>
                 <div className="flex items-center justify-between gap-4 min-h-[110px]">
                   <div className="flex-1 min-w-0">
                     <p className={`font-display text-lg leading-tight ${o.chosen ? "text-amber-gradient" : "text-foreground"}`}>

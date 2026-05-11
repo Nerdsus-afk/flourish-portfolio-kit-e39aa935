@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import ProjectDetail from "./pages/ProjectDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import { AnalyticsConsent } from "./components/AnalyticsConsent";
 import { useEffect } from "react";
 
 const queryClient = new QueryClient();

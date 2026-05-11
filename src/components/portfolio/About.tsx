@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, Building2, ExternalLink, Briefcase, GraduationCap, Globe, Filter, MousePointerClick, ArrowRight } from "lucide-react";
+import { CheckCircle2, Building2, ExternalLink, Briefcase, GraduationCap, Globe, Filter } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import bofaLogo from "@/assets/logos/bofa.png";
 import accentureLogo from "@/assets/logos/accenture.png";
@@ -128,7 +128,7 @@ export const About = () => {
   const [detailsCompany, setDetailsCompany] = useState<string | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string>(ALL);
   const [offersReady, setOffersReady] = useState(false);
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  
 
   useEffect(() => {
     const t = setTimeout(() => setOffersReady(true), 350);
@@ -270,8 +270,7 @@ export const About = () => {
             </div>
           </div>
 
-          <div className="flex items-stretch gap-3">
-          <div className="grid sm:grid-cols-2 gap-3 flex-1 min-w-0" aria-busy={!offersReady}>
+          <div className="grid sm:grid-cols-2 gap-3" aria-busy={!offersReady}>
             {!offersReady ? (
               Array.from({ length: 4 }).map((_, i) => (
                 <div
@@ -302,10 +301,6 @@ export const About = () => {
                 transition={{ duration: 0.45, delay: idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={prefersReducedMotion ? undefined : { y: -6, scale: 1.02, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } }}
                 onClick={() => setDetailsCompany(o.company)}
-                onMouseEnter={() => setHoveredIdx(idx)}
-                onMouseLeave={() => setHoveredIdx((cur) => (cur === idx ? null : cur))}
-                onFocus={() => setHoveredIdx(idx)}
-                onBlur={() => setHoveredIdx((cur) => (cur === idx ? null : cur))}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
@@ -342,12 +337,6 @@ export const About = () => {
                     <CheckCircle2 className="w-3 h-3" /> Chosen
                   </span>
                 )}
-                <span
-                  aria-hidden
-                  className="absolute top-3 right-3 z-10 inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-muted-foreground/80 group-hover/card:text-amber group-focus-visible/card:text-amber transition-colors duration-300"
-                >
-                  <MousePointerClick className="w-3 h-3 opacity-0 group-hover/card:opacity-100 group-focus-visible/card:opacity-100 transition-opacity duration-300" />
-                </span>
                 <div className="flex items-center justify-between gap-4 min-h-[110px]">
                   <div className="flex-1 min-w-0">
                     <p className={`font-display text-lg leading-tight ${o.chosen ? "text-amber-gradient" : "text-foreground"}`}>
@@ -385,36 +374,6 @@ export const About = () => {
             ))}
             </AnimatePresence>
             )}
-          </div>
-          {/* Vertical hint — only on wide desktops where there's room */}
-          <div
-            aria-hidden
-            className="hidden lg:flex shrink-0 items-center justify-center w-12 self-stretch"
-          >
-            <span
-              className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] [writing-mode:vertical-rl] rotate-180 select-none px-1.5 py-3 rounded-full bg-background border border-amber/40 shadow-[0_0_18px_-2px_hsl(var(--amber)/0.4)] text-[hsl(var(--amber-glow))]"
-            >
-              {/* Arrow points LEFT toward the grid (cards sit to the left of the vertical label) */}
-              <ArrowRight className="w-4 h-4 rotate-180 shrink-0" aria-hidden />
-              <span className="bg-[linear-gradient(180deg,hsl(var(--amber-glow))_0%,hsl(var(--amber))_50%,hsl(var(--amber-glow))_100%)] bg-[length:100%_300%] bg-clip-text text-transparent animate-[shimmer-y_2.4s_ease-in-out_infinite] motion-reduce:animate-none motion-reduce:bg-none motion-reduce:text-[hsl(var(--amber-glow))]">
-                Click any card to view details
-              </span>
-            </span>
-          </div>
-          </div>
-
-          {/* Horizontal hint — for narrow desktop / tablet where vertical would crowd the layout */}
-          <div
-            aria-hidden
-            className="hidden md:flex lg:hidden mt-4 items-center justify-center"
-          >
-            <span
-              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] px-3 py-1.5 rounded-full bg-background border border-amber/40 shadow-[0_0_18px_-2px_hsl(var(--amber)/0.4)] text-[hsl(var(--amber-glow))]"
-            >
-              {/* Arrow points UP toward the grid (cards sit above the horizontal label) */}
-              <ArrowRight className="w-4 h-4 -rotate-90 shrink-0" aria-hidden />
-              <span>Click any card to view details</span>
-            </span>
           </div>
           {filteredOffers.length === 0 && (
             <p className="text-sm text-muted-foreground mt-4">

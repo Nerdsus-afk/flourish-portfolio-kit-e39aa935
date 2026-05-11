@@ -270,8 +270,7 @@ export const About = () => {
             </div>
           </div>
 
-          <div className="flex items-stretch gap-3">
-          <div className="grid sm:grid-cols-2 gap-3 flex-1 min-w-0" aria-busy={!offersReady}>
+          <div className="grid sm:grid-cols-2 gap-3" aria-busy={!offersReady}>
             {!offersReady ? (
               Array.from({ length: 4 }).map((_, i) => (
                 <div

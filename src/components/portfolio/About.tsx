@@ -327,7 +327,7 @@ export const About = () => {
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     className="relative w-24 h-24 aspect-square rounded-xl bg-white flex items-center justify-center p-2.5 shrink-0 border border-border overflow-hidden [perspective:800px] transition-shadow duration-300 group-hover/card:shadow-[0_12px_30px_-10px_hsl(var(--amber)/0.55)]"
                   >
-                    <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-15 transition-opacity duration-300" />
+                    <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-15 transition-opacity duration-300 motion-reduce:transition-none motion-reduce:group-hover/card:opacity-0" />
                     <img
                       src={o.logo}
                       srcSet={`${o.logo} 1x, ${o.logo} 2x`}

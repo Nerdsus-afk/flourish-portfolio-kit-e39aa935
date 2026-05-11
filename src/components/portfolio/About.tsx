@@ -381,6 +381,18 @@ export const About = () => {
             </AnimatePresence>
             )}
           </div>
+          <div
+            aria-hidden
+            className="hidden md:flex shrink-0 items-center justify-center w-8 self-stretch"
+          >
+            <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.32em] text-muted-foreground/70 [writing-mode:vertical-rl] rotate-180 select-none">
+              <ArrowRight className="w-3 h-3 -rotate-90 text-amber animate-bounce motion-reduce:animate-none" />
+              <span className="bg-gradient-to-b from-amber via-amber/60 to-muted-foreground/40 bg-clip-text text-transparent animate-pulse motion-reduce:animate-none">
+                Click any card to view details
+              </span>
+            </span>
+          </div>
+          </div>
           {filteredOffers.length === 0 && (
             <p className="text-sm text-muted-foreground mt-4">
               No offers match these filters.{" "}

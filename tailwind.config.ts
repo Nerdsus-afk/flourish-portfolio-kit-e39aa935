@@ -60,6 +60,7 @@ export default {
         "fade-up": { "0%": { opacity: "0", transform: "translateY(30px)" }, "100%": { opacity: "1", transform: "translateY(0)" } },
         "float": { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-12px)" } },
         "glow-pulse": { "0%,100%": { opacity: "0.5" }, "50%": { opacity: "1" } },
+        "shimmer-y": { "0%,100%": { "background-position": "0% 0%" }, "50%": { "background-position": "0% 100%" } },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

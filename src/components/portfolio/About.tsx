@@ -127,6 +127,12 @@ export const About = () => {
 
   const [detailsCompany, setDetailsCompany] = useState<string | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string>(ALL);
+  const [offersReady, setOffersReady] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setOffersReady(true), 350);
+    return () => clearTimeout(t);
+  }, []);
 
   const details = useMemo(
     () => offers.find((o) => o.company === detailsCompany) ?? null,

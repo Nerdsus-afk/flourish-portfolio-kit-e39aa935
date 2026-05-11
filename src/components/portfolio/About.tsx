@@ -127,11 +127,36 @@ export const About = () => {
     ? { opacity: 1 }
     : { opacity: 1, y: 0 };
 
-  const [detailsCompany, setDetailsCompany] = useState<string | null>(null);
-  const [categoryFilter, setCategoryFilter] = useState<string>(ALL);
-  const [offersReady, setOffersReady] = useState(false);
-  
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  // Initialise from URL (?cat=...&offer=...) so refresh / shared links restore state.
+  const initialCat = searchParams.get("cat") ?? ALL;
+  const initialOffer = searchParams.get("offer");
+  const validInitialCat = useMemo(
+    () => (offers.some((o) => o.category === initialCat) || initialCat === ALL ? initialCat : ALL),
+    [initialCat]
+  );
+  const validInitialOffer = useMemo(
+    () => (initialOffer && offers.some((o) => o.company === initialOffer) ? initialOffer : null),
+    [initialOffer]
+  );
+
+  const [detailsCompany, setDetailsCompany] = useState<string | null>(validInitialOffer);
+  const [categoryFilter, setCategoryFilter] = useState<string>(validInitialCat);
+  const [offersReady, setOffersReady] = useState(false);
+  const lastHoverRef = useRef<{ company: string; t: number }>({ company: "", t: 0 });
+
+  // Sync state -> URL (replace, no history spam).
+  useEffect(() => {
+    const next = new URLSearchParams(searchParams);
+    if (categoryFilter && categoryFilter !== ALL) next.set("cat", categoryFilter);
+    else next.delete("cat");
+    if (detailsCompany) next.set("offer", detailsCompany);
+    else next.delete("offer");
+    if (next.toString() !== searchParams.toString()) {
+      setSearchParams(next, { replace: true });
+    }
+  }, [categoryFilter, detailsCompany, searchParams, setSearchParams]);
   useEffect(() => {
     const t = setTimeout(() => setOffersReady(true), 350);
     return () => clearTimeout(t);

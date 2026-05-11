@@ -385,7 +385,6 @@ export const About = () => {
             </AnimatePresence>
             )}
           </div>
-          </div>
           {filteredOffers.length === 0 && (
             <p className="text-sm text-muted-foreground mt-4">
               No offers match these filters.{" "}

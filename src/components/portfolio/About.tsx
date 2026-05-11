@@ -129,42 +129,6 @@ export const About = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>(ALL);
   const [offersReady, setOffersReady] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const verticalLabelRef = useRef<HTMLSpanElement>(null);
-  const horizontalLabelRef = useRef<HTMLSpanElement>(null);
-  const VERTICAL_REST = 180;   // arrow points left toward grid (cards are to the left of vertical label)
-  const HORIZONTAL_REST = -90; // arrow points up toward grid (cards are above horizontal label)
-  const [verticalAngle, setVerticalAngle] = useState<number>(VERTICAL_REST);
-  const [horizontalAngle, setHorizontalAngle] = useState<number>(HORIZONTAL_REST);
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      setVerticalAngle(VERTICAL_REST);
-      setHorizontalAngle(HORIZONTAL_REST);
-      return;
-    }
-    if (hoveredIdx == null) {
-      setVerticalAngle(VERTICAL_REST);
-      setHorizontalAngle(HORIZONTAL_REST);
-      return;
-    }
-    const card = cardRefs.current[hoveredIdx];
-    if (!card) return;
-    const cardRect = card.getBoundingClientRect();
-    const cardCx = cardRect.left + cardRect.width / 2;
-    const cardCy = cardRect.top + cardRect.height / 2;
-    const angleFrom = (ref: React.RefObject<HTMLElement>) => {
-      if (!ref.current) return null;
-      const r = ref.current.getBoundingClientRect();
-      const cx = r.left + r.width / 2;
-      const cy = r.top + r.height / 2;
-      return (Math.atan2(cardCy - cy, cardCx - cx) * 180) / Math.PI;
-    };
-    const va = angleFrom(verticalLabelRef);
-    const ha = angleFrom(horizontalLabelRef);
-    if (va != null) setVerticalAngle(va);
-    if (ha != null) setHorizontalAngle(ha);
-  }, [hoveredIdx, prefersReducedMotion]);
 
   useEffect(() => {
     const t = setTimeout(() => setOffersReady(true), 350);
@@ -331,7 +295,6 @@ export const About = () => {
             {filteredOffers.map((o, idx) => (
               <motion.div
                 key={o.company}
-                ref={(el) => { cardRefs.current[idx] = el; }}
                 layout
                 initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
                 animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
@@ -429,17 +392,13 @@ export const About = () => {
             className="hidden lg:flex shrink-0 items-center justify-center w-12 self-stretch"
           >
             <span
-              ref={verticalLabelRef}
               className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] [writing-mode:vertical-rl] rotate-180 select-none px-1.5 py-3 rounded-full bg-background border border-amber/40 shadow-[0_0_18px_-2px_hsl(var(--amber)/0.4)] text-[hsl(var(--amber-glow))]"
             >
-              <motion.span
-                className="inline-flex"
-                animate={prefersReducedMotion ? { rotate: VERTICAL_REST } : { rotate: verticalAngle }}
-                transition={{ type: "spring", stiffness: 220, damping: 22 }}
-              >
-                <ArrowRight className={`w-4 h-4 ${hoveredIdx == null ? "animate-pulse motion-reduce:animate-none" : ""}`} />
-              </motion.span>
-              <span>Click any card to view details</span>
+              {/* Arrow points LEFT toward the grid (cards sit to the left of the vertical label) */}
+              <ArrowRight className="w-4 h-4 rotate-180 shrink-0" aria-hidden />
+              <span className="bg-[linear-gradient(180deg,hsl(var(--amber-glow))_0%,hsl(var(--amber))_50%,hsl(var(--amber-glow))_100%)] bg-[length:100%_300%] bg-clip-text text-transparent animate-[shimmer-y_2.4s_ease-in-out_infinite] motion-reduce:animate-none motion-reduce:bg-none motion-reduce:text-[hsl(var(--amber-glow))]">
+                Click any card to view details
+              </span>
             </span>
           </div>
           </div>
@@ -450,16 +409,10 @@ export const About = () => {
             className="hidden md:flex lg:hidden mt-4 items-center justify-center"
           >
             <span
-              ref={horizontalLabelRef}
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] px-3 py-1.5 rounded-full bg-background border border-amber/40 shadow-[0_0_18px_-2px_hsl(var(--amber)/0.4)] text-[hsl(var(--amber-glow))]"
             >
-              <motion.span
-                className="inline-flex"
-                animate={prefersReducedMotion ? { rotate: HORIZONTAL_REST } : { rotate: horizontalAngle }}
-                transition={{ type: "spring", stiffness: 220, damping: 22 }}
-              >
-                <ArrowRight className={`w-4 h-4 ${hoveredIdx == null ? "animate-pulse motion-reduce:animate-none" : ""}`} />
-              </motion.span>
+              {/* Arrow points UP toward the grid (cards sit above the horizontal label) */}
+              <ArrowRight className="w-4 h-4 -rotate-90 shrink-0" aria-hidden />
               <span>Click any card to view details</span>
             </span>
           </div>

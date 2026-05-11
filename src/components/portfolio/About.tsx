@@ -301,10 +301,6 @@ export const About = () => {
                 transition={{ duration: 0.45, delay: idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={prefersReducedMotion ? undefined : { y: -6, scale: 1.02, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } }}
                 onClick={() => setDetailsCompany(o.company)}
-                onMouseEnter={() => setHoveredIdx(idx)}
-                onMouseLeave={() => setHoveredIdx((cur) => (cur === idx ? null : cur))}
-                onFocus={() => setHoveredIdx(idx)}
-                onBlur={() => setHoveredIdx((cur) => (cur === idx ? null : cur))}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {

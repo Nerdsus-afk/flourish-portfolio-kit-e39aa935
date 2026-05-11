@@ -330,12 +330,23 @@ export const About = () => {
                 exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10, scale: 0.98 }}
                 transition={{ duration: 0.45, delay: idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={prefersReducedMotion ? undefined : { y: -6, scale: 1.02, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } }}
-                onClick={() => setDetailsCompany(o.company)}
+                onClick={() => {
+                  track({ name: "offer_card_click", props: { company: o.company, role: o.role, chosen: o.chosen } });
+                  setDetailsCompany(o.company);
+                }}
+                onMouseEnter={() => {
+                  // throttle hover events to avoid spamming on quick mouse passes
+                  const now = Date.now();
+                  if (lastHoverRef.current.company === o.company && now - lastHoverRef.current.t < 1500) return;
+                  lastHoverRef.current = { company: o.company, t: now };
+                  track({ name: "offer_card_hover", props: { company: o.company } });
+                }}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
+                    track({ name: "offer_card_click", props: { company: o.company, role: o.role, chosen: o.chosen, via: "keyboard" } });
                     setDetailsCompany(o.company);
                   }
                 }}

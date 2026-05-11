@@ -269,7 +269,8 @@ export const About = () => {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-3" aria-busy={!offersReady}>
+          <div className="flex items-stretch gap-3">
+          <div className="grid sm:grid-cols-2 gap-3 flex-1 min-w-0" aria-busy={!offersReady}>
             {!offersReady ? (
               Array.from({ length: 4 }).map((_, i) => (
                 <div
@@ -340,9 +341,7 @@ export const About = () => {
                   aria-hidden
                   className="absolute top-3 right-3 z-10 inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-muted-foreground/80 group-hover/card:text-amber group-focus-visible/card:text-amber transition-colors duration-300"
                 >
-                  <MousePointerClick className="w-3 h-3 animate-pulse motion-reduce:animate-none" />
-                  <span className="hidden sm:inline">Click to view</span>
-                  <ArrowRight className="w-3 h-3 translate-x-0 group-hover/card:translate-x-1 group-focus-visible/card:translate-x-1 transition-transform duration-300 ease-out motion-reduce:transition-none motion-reduce:group-hover/card:translate-x-0 motion-reduce:group-focus-visible/card:translate-x-0" />
+                  <MousePointerClick className="w-3 h-3 opacity-0 group-hover/card:opacity-100 group-focus-visible/card:opacity-100 transition-opacity duration-300" />
                 </span>
                 <div className="flex items-center justify-between gap-4 min-h-[110px]">
                   <div className="flex-1 min-w-0">
@@ -381,6 +380,18 @@ export const About = () => {
             ))}
             </AnimatePresence>
             )}
+          </div>
+          <div
+            aria-hidden
+            className="hidden md:flex shrink-0 items-center justify-center w-8 self-stretch"
+          >
+            <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.32em] text-muted-foreground/70 [writing-mode:vertical-rl] rotate-180 select-none">
+              <ArrowRight className="w-3 h-3 -rotate-90 text-amber animate-bounce motion-reduce:animate-none" />
+              <span className="bg-gradient-to-b from-amber via-amber/60 to-muted-foreground/40 bg-clip-text text-transparent animate-pulse motion-reduce:animate-none">
+                Click any card to view details
+              </span>
+            </span>
+          </div>
           </div>
           {filteredOffers.length === 0 && (
             <p className="text-sm text-muted-foreground mt-4">

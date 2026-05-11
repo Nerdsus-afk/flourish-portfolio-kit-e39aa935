@@ -129,6 +129,42 @@ export const About = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>(ALL);
   const [offersReady, setOffersReady] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const verticalLabelRef = useRef<HTMLSpanElement>(null);
+  const horizontalLabelRef = useRef<HTMLSpanElement>(null);
+  const VERTICAL_REST = 180;   // arrow points left toward grid (cards are to the left of vertical label)
+  const HORIZONTAL_REST = -90; // arrow points up toward grid (cards are above horizontal label)
+  const [verticalAngle, setVerticalAngle] = useState<number>(VERTICAL_REST);
+  const [horizontalAngle, setHorizontalAngle] = useState<number>(HORIZONTAL_REST);
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setVerticalAngle(VERTICAL_REST);
+      setHorizontalAngle(HORIZONTAL_REST);
+      return;
+    }
+    if (hoveredIdx == null) {
+      setVerticalAngle(VERTICAL_REST);
+      setHorizontalAngle(HORIZONTAL_REST);
+      return;
+    }
+    const card = cardRefs.current[hoveredIdx];
+    if (!card) return;
+    const cardRect = card.getBoundingClientRect();
+    const cardCx = cardRect.left + cardRect.width / 2;
+    const cardCy = cardRect.top + cardRect.height / 2;
+    const angleFrom = (ref: React.RefObject<HTMLElement>) => {
+      if (!ref.current) return null;
+      const r = ref.current.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      return (Math.atan2(cardCy - cy, cardCx - cx) * 180) / Math.PI;
+    };
+    const va = angleFrom(verticalLabelRef);
+    const ha = angleFrom(horizontalLabelRef);
+    if (va != null) setVerticalAngle(va);
+    if (ha != null) setHorizontalAngle(ha);
+  }, [hoveredIdx, prefersReducedMotion]);
 
   useEffect(() => {
     const t = setTimeout(() => setOffersReady(true), 350);

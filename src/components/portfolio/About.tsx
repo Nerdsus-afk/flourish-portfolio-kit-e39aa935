@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, Building2, ExternalLink, Briefcase, GraduationCap, Globe, Filter, MousePointerClick, ArrowRight } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -129,6 +129,42 @@ export const About = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>(ALL);
   const [offersReady, setOffersReady] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const verticalLabelRef = useRef<HTMLSpanElement>(null);
+  const horizontalLabelRef = useRef<HTMLSpanElement>(null);
+  const VERTICAL_REST = 180;   // arrow points left toward grid (cards are to the left of vertical label)
+  const HORIZONTAL_REST = -90; // arrow points up toward grid (cards are above horizontal label)
+  const [verticalAngle, setVerticalAngle] = useState<number>(VERTICAL_REST);
+  const [horizontalAngle, setHorizontalAngle] = useState<number>(HORIZONTAL_REST);
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setVerticalAngle(VERTICAL_REST);
+      setHorizontalAngle(HORIZONTAL_REST);
+      return;
+    }
+    if (hoveredIdx == null) {
+      setVerticalAngle(VERTICAL_REST);
+      setHorizontalAngle(HORIZONTAL_REST);
+      return;
+    }
+    const card = cardRefs.current[hoveredIdx];
+    if (!card) return;
+    const cardRect = card.getBoundingClientRect();
+    const cardCx = cardRect.left + cardRect.width / 2;
+    const cardCy = cardRect.top + cardRect.height / 2;
+    const angleFrom = (ref: React.RefObject<HTMLElement>) => {
+      if (!ref.current) return null;
+      const r = ref.current.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      return (Math.atan2(cardCy - cy, cardCx - cx) * 180) / Math.PI;
+    };
+    const va = angleFrom(verticalLabelRef);
+    const ha = angleFrom(horizontalLabelRef);
+    if (va != null) setVerticalAngle(va);
+    if (ha != null) setHorizontalAngle(ha);
+  }, [hoveredIdx, prefersReducedMotion]);
 
   useEffect(() => {
     const t = setTimeout(() => setOffersReady(true), 350);
@@ -295,6 +331,7 @@ export const About = () => {
             {filteredOffers.map((o, idx) => (
               <motion.div
                 key={o.company}
+                ref={(el) => { cardRefs.current[idx] = el; }}
                 layout
                 initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
                 animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
@@ -391,20 +428,16 @@ export const About = () => {
             aria-hidden
             className="hidden lg:flex shrink-0 items-center justify-center w-12 self-stretch"
           >
-            <span className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] text-amber [writing-mode:vertical-rl] rotate-180 select-none drop-shadow-[0_0_10px_hsl(var(--amber)/0.5)] px-1.5 py-3 rounded-full bg-card/70 border border-amber/30 backdrop-blur-sm">
+            <span
+              ref={verticalLabelRef}
+              className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] [writing-mode:vertical-rl] rotate-180 select-none px-1.5 py-3 rounded-full bg-background border border-amber/40 shadow-[0_0_18px_-2px_hsl(var(--amber)/0.4)] text-[hsl(var(--amber-glow))]"
+            >
               <motion.span
                 className="inline-flex"
-                animate={
-                  prefersReducedMotion
-                    ? { y: 0, rotate: 0 }
-                    : {
-                        y: hoveredIdx == null ? 0 : (Math.floor(hoveredIdx / 2) - 0.5) * 28,
-                        rotate: hoveredIdx == null ? 0 : (Math.floor(hoveredIdx / 2) - 0.5) * 30,
-                      }
-                }
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                animate={prefersReducedMotion ? { rotate: VERTICAL_REST } : { rotate: verticalAngle }}
+                transition={{ type: "spring", stiffness: 220, damping: 22 }}
               >
-                <ArrowRight className={`w-4 h-4 -rotate-90 text-amber ${hoveredIdx == null ? "animate-bounce motion-reduce:animate-none" : ""}`} />
+                <ArrowRight className={`w-4 h-4 ${hoveredIdx == null ? "animate-pulse motion-reduce:animate-none" : ""}`} />
               </motion.span>
               <span>Click any card to view details</span>
             </span>
@@ -416,20 +449,16 @@ export const About = () => {
             aria-hidden
             className="hidden md:flex lg:hidden mt-4 items-center justify-center"
           >
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] text-amber px-3 py-1.5 rounded-full bg-card/70 border border-amber/30 backdrop-blur-sm drop-shadow-[0_0_10px_hsl(var(--amber)/0.4)]">
+            <span
+              ref={horizontalLabelRef}
+              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] px-3 py-1.5 rounded-full bg-background border border-amber/40 shadow-[0_0_18px_-2px_hsl(var(--amber)/0.4)] text-[hsl(var(--amber-glow))]"
+            >
               <motion.span
                 className="inline-flex"
-                animate={
-                  prefersReducedMotion
-                    ? { x: 0, rotate: 0 }
-                    : {
-                        x: hoveredIdx == null ? 0 : ((hoveredIdx % 2) - 0.5) * -16,
-                        rotate: hoveredIdx == null ? 0 : ((hoveredIdx % 2) - 0.5) * -20,
-                      }
-                }
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                animate={prefersReducedMotion ? { rotate: HORIZONTAL_REST } : { rotate: horizontalAngle }}
+                transition={{ type: "spring", stiffness: 220, damping: 22 }}
               >
-                <ArrowRight className={`w-4 h-4 rotate-180 ${hoveredIdx == null ? "animate-pulse motion-reduce:animate-none" : ""}`} />
+                <ArrowRight className={`w-4 h-4 ${hoveredIdx == null ? "animate-pulse motion-reduce:animate-none" : ""}`} />
               </motion.span>
               <span>Click any card to view details</span>
             </span>

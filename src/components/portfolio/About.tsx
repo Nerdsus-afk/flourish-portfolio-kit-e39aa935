@@ -284,7 +284,7 @@ export const About = () => {
                   }
                 }}
                 aria-label={`View details for ${o.company} placement offer`}
-                className={`group/card relative p-5 rounded-2xl border overflow-hidden transition-[box-shadow,border-color,background-color] duration-500 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber ${
+                className={`group/card relative p-5 rounded-2xl border overflow-hidden transition-[box-shadow,border-color,background-color] duration-500 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                   o.chosen
                     ? "border-amber bg-card shadow-glow hover:shadow-[0_20px_60px_-15px_hsl(var(--amber)/0.55)]"
                     : "border-border bg-card/60 hover:border-amber/60 hover:bg-card hover:shadow-[0_20px_50px_-20px_hsl(var(--amber)/0.35)]"
@@ -292,11 +292,11 @@ export const About = () => {
               >
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-[0.12] transition-opacity duration-300 ease-out"
+                  className="pointer-events-none absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-[0.12] transition-opacity duration-300 ease-out motion-reduce:transition-none motion-reduce:group-hover/card:opacity-0"
                 />
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute -inset-24 rounded-full bg-[radial-gradient(circle_at_center,hsl(var(--amber)/0.28),transparent_60%)] opacity-0 blur-2xl group-hover/card:opacity-100 transition-opacity duration-300 ease-out"
+                  className="pointer-events-none absolute -inset-24 rounded-full bg-[radial-gradient(circle_at_center,hsl(var(--amber)/0.28),transparent_60%)] opacity-0 blur-2xl group-hover/card:opacity-100 transition-opacity duration-300 ease-out motion-reduce:transition-none motion-reduce:group-hover/card:opacity-0"
                 />
                 <span
                   aria-hidden
@@ -304,7 +304,7 @@ export const About = () => {
                 />
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute -top-1/2 -left-1/2 w-[60%] h-[200%] rotate-12 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-120%] group-hover/card:translate-x-[260%] transition-transform duration-[900ms] ease-out"
+                  className="pointer-events-none absolute -top-1/2 -left-1/2 w-[60%] h-[200%] rotate-12 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-120%] group-hover/card:translate-x-[260%] transition-transform duration-[900ms] ease-out motion-reduce:hidden"
                 />
                 {o.chosen && (
                   <span className="absolute top-3 left-3 inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.18em] text-amber font-medium z-10">
@@ -327,7 +327,7 @@ export const About = () => {
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     className="relative w-24 h-24 aspect-square rounded-xl bg-white flex items-center justify-center p-2.5 shrink-0 border border-border overflow-hidden [perspective:800px] transition-shadow duration-300 group-hover/card:shadow-[0_12px_30px_-10px_hsl(var(--amber)/0.55)]"
                   >
-                    <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-15 transition-opacity duration-300" />
+                    <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-15 transition-opacity duration-300 motion-reduce:transition-none motion-reduce:group-hover/card:opacity-0" />
                     <img
                       src={o.logo}
                       srcSet={`${o.logo} 1x, ${o.logo} 2x`}

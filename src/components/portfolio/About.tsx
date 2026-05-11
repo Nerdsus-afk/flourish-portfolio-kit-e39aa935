@@ -386,35 +386,6 @@ export const About = () => {
             </AnimatePresence>
             )}
           </div>
-          {/* Vertical hint — only on wide desktops where there's room */}
-          <div
-            aria-hidden
-            className="hidden lg:flex shrink-0 items-center justify-center w-12 self-stretch"
-          >
-            <span
-              className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] [writing-mode:vertical-rl] rotate-180 select-none px-1.5 py-3 rounded-full bg-background border border-amber/40 shadow-[0_0_18px_-2px_hsl(var(--amber)/0.4)] text-[hsl(var(--amber-glow))]"
-            >
-              {/* Arrow points LEFT toward the grid (cards sit to the left of the vertical label) */}
-              <ArrowRight className="w-4 h-4 rotate-180 shrink-0" aria-hidden />
-              <span className="bg-[linear-gradient(180deg,hsl(var(--amber-glow))_0%,hsl(var(--amber))_50%,hsl(var(--amber-glow))_100%)] bg-[length:100%_300%] bg-clip-text text-transparent animate-[shimmer-y_2.4s_ease-in-out_infinite] motion-reduce:animate-none motion-reduce:bg-none motion-reduce:text-[hsl(var(--amber-glow))]">
-                Click any card to view details
-              </span>
-            </span>
-          </div>
-          </div>
-
-          {/* Horizontal hint — for narrow desktop / tablet where vertical would crowd the layout */}
-          <div
-            aria-hidden
-            className="hidden md:flex lg:hidden mt-4 items-center justify-center"
-          >
-            <span
-              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] px-3 py-1.5 rounded-full bg-background border border-amber/40 shadow-[0_0_18px_-2px_hsl(var(--amber)/0.4)] text-[hsl(var(--amber-glow))]"
-            >
-              {/* Arrow points UP toward the grid (cards sit above the horizontal label) */}
-              <ArrowRight className="w-4 h-4 -rotate-90 shrink-0" aria-hidden />
-              <span>Click any card to view details</span>
-            </span>
           </div>
           {filteredOffers.length === 0 && (
             <p className="text-sm text-muted-foreground mt-4">

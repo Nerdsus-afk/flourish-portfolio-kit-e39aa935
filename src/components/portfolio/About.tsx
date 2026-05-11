@@ -383,13 +383,11 @@ export const About = () => {
           </div>
           <div
             aria-hidden
-            className="hidden md:flex shrink-0 items-center justify-center w-8 self-stretch"
+            className="hidden md:flex shrink-0 items-center justify-center w-10 self-stretch"
           >
-            <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.32em] text-muted-foreground/70 [writing-mode:vertical-rl] rotate-180 select-none">
-              <ArrowRight className="w-3 h-3 -rotate-90 text-amber animate-bounce motion-reduce:animate-none" />
-              <span className="bg-gradient-to-b from-amber via-amber/60 to-muted-foreground/40 bg-clip-text text-transparent animate-pulse motion-reduce:animate-none">
-                Click any card to view details
-              </span>
+            <span className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] text-amber [writing-mode:vertical-rl] rotate-180 select-none drop-shadow-[0_0_8px_hsl(var(--amber)/0.35)]">
+              <ArrowRight className="w-4 h-4 -rotate-90 text-amber animate-bounce motion-reduce:animate-none" />
+              <span>Click any card to view details</span>
             </span>
           </div>
           </div>

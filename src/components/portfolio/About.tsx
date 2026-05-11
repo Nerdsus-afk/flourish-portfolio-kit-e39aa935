@@ -282,7 +282,10 @@ export const About = () => {
                   <button
                     key={c}
                     type="button"
-                    onClick={() => setCategoryFilter(c)}
+                    onClick={() => {
+                      setCategoryFilter(c);
+                      track({ name: "offers_filter_change", props: { category: c } });
+                    }}
                     aria-pressed={active}
                     className={`px-3 py-1 rounded-full text-xs border transition-colors ${
                       active

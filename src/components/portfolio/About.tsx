@@ -331,6 +331,7 @@ export const About = () => {
             {filteredOffers.map((o, idx) => (
               <motion.div
                 key={o.company}
+                ref={(el) => { cardRefs.current[idx] = el; }}
                 layout
                 initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
                 animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}

@@ -386,15 +386,53 @@ export const About = () => {
             </AnimatePresence>
             )}
           </div>
+          {/* Vertical hint — only on wide desktops where there's room */}
           <div
             aria-hidden
-            className="hidden md:flex shrink-0 items-center justify-center w-10 self-stretch"
+            className="hidden lg:flex shrink-0 items-center justify-center w-12 self-stretch"
           >
-            <span className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] text-amber [writing-mode:vertical-rl] rotate-180 select-none drop-shadow-[0_0_8px_hsl(var(--amber)/0.35)]">
-              <ArrowRight className="w-4 h-4 -rotate-90 text-amber animate-bounce motion-reduce:animate-none" />
+            <span className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] text-amber [writing-mode:vertical-rl] rotate-180 select-none drop-shadow-[0_0_10px_hsl(var(--amber)/0.5)] px-1.5 py-3 rounded-full bg-card/70 border border-amber/30 backdrop-blur-sm">
+              <motion.span
+                className="inline-flex"
+                animate={
+                  prefersReducedMotion
+                    ? { y: 0, rotate: 0 }
+                    : {
+                        y: hoveredIdx == null ? 0 : (Math.floor(hoveredIdx / 2) - 0.5) * 28,
+                        rotate: hoveredIdx == null ? 0 : (Math.floor(hoveredIdx / 2) - 0.5) * 30,
+                      }
+                }
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <ArrowRight className={`w-4 h-4 -rotate-90 text-amber ${hoveredIdx == null ? "animate-bounce motion-reduce:animate-none" : ""}`} />
+              </motion.span>
               <span>Click any card to view details</span>
             </span>
           </div>
+          </div>
+
+          {/* Horizontal hint — for narrow desktop / tablet where vertical would crowd the layout */}
+          <div
+            aria-hidden
+            className="hidden md:flex lg:hidden mt-4 items-center justify-center"
+          >
+            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] text-amber px-3 py-1.5 rounded-full bg-card/70 border border-amber/30 backdrop-blur-sm drop-shadow-[0_0_10px_hsl(var(--amber)/0.4)]">
+              <motion.span
+                className="inline-flex"
+                animate={
+                  prefersReducedMotion
+                    ? { x: 0, rotate: 0 }
+                    : {
+                        x: hoveredIdx == null ? 0 : ((hoveredIdx % 2) - 0.5) * -16,
+                        rotate: hoveredIdx == null ? 0 : ((hoveredIdx % 2) - 0.5) * -20,
+                      }
+                }
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <ArrowRight className={`w-4 h-4 rotate-180 ${hoveredIdx == null ? "animate-pulse motion-reduce:animate-none" : ""}`} />
+              </motion.span>
+              <span>Click any card to view details</span>
+            </span>
           </div>
           {filteredOffers.length === 0 && (
             <p className="text-sm text-muted-foreground mt-4">

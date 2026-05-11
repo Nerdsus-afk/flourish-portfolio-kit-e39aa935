@@ -269,7 +269,26 @@ export const About = () => {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-3">
+          <div className="grid sm:grid-cols-2 gap-3" aria-busy={!offersReady}>
+            {!offersReady ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={i}
+                  role="status"
+                  aria-label="Loading placement offer"
+                  className="relative p-5 rounded-2xl border border-border bg-card/40 overflow-hidden min-h-[150px]"
+                >
+                  <div className="flex items-center justify-between gap-4 min-h-[110px]">
+                    <div className="flex-1 min-w-0 space-y-3">
+                      <div className="h-5 w-2/3 rounded bg-muted/40 animate-pulse motion-reduce:animate-none" />
+                      <div className="h-3 w-1/2 rounded bg-muted/30 animate-pulse motion-reduce:animate-none" />
+                      <div className="h-4 w-1/3 rounded bg-muted/30 animate-pulse motion-reduce:animate-none" />
+                    </div>
+                    <div className="w-24 h-24 rounded-xl bg-muted/30 animate-pulse motion-reduce:animate-none shrink-0" />
+                  </div>
+                </div>
+              ))
+            ) : (
             <AnimatePresence mode="popLayout">
             {filteredOffers.map((o, idx) => (
               <motion.div
@@ -292,25 +311,25 @@ export const About = () => {
                 aria-label={`View details for ${o.company} placement offer`}
                 className={`group/card relative p-5 rounded-2xl border overflow-hidden transition-[box-shadow,border-color,background-color] duration-500 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                   o.chosen
-                    ? "border-amber bg-card shadow-glow hover:shadow-[0_20px_60px_-15px_hsl(var(--amber)/0.55)]"
-                    : "border-border bg-card/60 hover:border-amber/60 hover:bg-card hover:shadow-[0_20px_50px_-20px_hsl(var(--amber)/0.35)]"
+                    ? "border-amber bg-card shadow-glow hover:shadow-[0_20px_60px_-15px_hsl(var(--amber)/0.55)] focus-visible:shadow-[0_20px_60px_-15px_hsl(var(--amber)/0.55)]"
+                    : "border-border bg-card/60 hover:border-amber/60 hover:bg-card hover:shadow-[0_20px_50px_-20px_hsl(var(--amber)/0.35)] focus-visible:border-amber/60 focus-visible:bg-card focus-visible:shadow-[0_20px_50px_-20px_hsl(var(--amber)/0.35)]"
                 }`}
               >
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-[0.12] transition-opacity duration-300 ease-out motion-reduce:transition-none motion-reduce:group-hover/card:opacity-0"
+                  className="pointer-events-none absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-[0.12] group-focus-visible/card:opacity-[0.12] transition-opacity duration-300 ease-out motion-reduce:transition-none motion-reduce:group-hover/card:opacity-0 motion-reduce:group-focus-visible/card:opacity-0"
                 />
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute -inset-24 rounded-full bg-[radial-gradient(circle_at_center,hsl(var(--amber)/0.28),transparent_60%)] opacity-0 blur-2xl group-hover/card:opacity-100 transition-opacity duration-300 ease-out motion-reduce:transition-none motion-reduce:group-hover/card:opacity-0"
+                  className="pointer-events-none absolute -inset-24 rounded-full bg-[radial-gradient(circle_at_center,hsl(var(--amber)/0.28),transparent_60%)] opacity-0 blur-2xl group-hover/card:opacity-100 group-focus-visible/card:opacity-100 transition-opacity duration-300 ease-out motion-reduce:transition-none motion-reduce:group-hover/card:opacity-0 motion-reduce:group-focus-visible/card:opacity-0"
                 />
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute -inset-px rounded-2xl ring-1 ring-amber/0 group-hover/card:ring-amber/40 transition-[box-shadow] duration-300"
+                  className="pointer-events-none absolute -inset-px rounded-2xl ring-1 ring-amber/0 group-hover/card:ring-amber/40 group-focus-visible/card:ring-amber/40 transition-[box-shadow] duration-300"
                 />
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute -top-1/2 -left-1/2 w-[60%] h-[200%] rotate-12 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-120%] group-hover/card:translate-x-[260%] transition-transform duration-[900ms] ease-out motion-reduce:hidden"
+                  className="pointer-events-none absolute -top-1/2 -left-1/2 w-[60%] h-[200%] rotate-12 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-120%] group-hover/card:translate-x-[260%] group-focus-visible/card:translate-x-[260%] transition-transform duration-[900ms] ease-out motion-reduce:hidden"
                 />
                 {o.chosen && (
                   <span className="absolute top-3 left-3 inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.18em] text-amber font-medium z-10">
@@ -331,9 +350,9 @@ export const About = () => {
                     whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative w-24 h-24 aspect-square rounded-xl bg-white flex items-center justify-center p-2.5 shrink-0 border border-border overflow-hidden [perspective:800px] transition-shadow duration-300 group-hover/card:shadow-[0_12px_30px_-10px_hsl(var(--amber)/0.55)]"
+                    className="relative w-24 h-24 aspect-square rounded-xl bg-white flex items-center justify-center p-2.5 shrink-0 border border-border overflow-hidden [perspective:800px] transition-shadow duration-300 group-hover/card:shadow-[0_12px_30px_-10px_hsl(var(--amber)/0.55)] group-focus-visible/card:shadow-[0_12px_30px_-10px_hsl(var(--amber)/0.55)]"
                   >
-                    <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-15 transition-opacity duration-300 motion-reduce:transition-none motion-reduce:group-hover/card:opacity-0" />
+                    <span aria-hidden className="absolute inset-0 bg-gradient-amber opacity-0 group-hover/card:opacity-15 group-focus-visible/card:opacity-15 transition-opacity duration-300 motion-reduce:transition-none motion-reduce:group-hover/card:opacity-0 motion-reduce:group-focus-visible/card:opacity-0" />
                     <img
                       src={o.logo}
                       srcSet={`${o.logo} 1x, ${o.logo} 2x`}
@@ -346,13 +365,14 @@ export const About = () => {
                       fetchPriority="high"
                       draggable={false}
                       style={{ imageRendering: "auto", transformStyle: "preserve-3d" }}
-                      className="relative w-full h-full max-w-full max-h-full [-webkit-backface-visibility:hidden] object-contain will-change-transform transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] [transform:translateZ(0)_rotateX(0)_rotateY(0)_scale(1)] group-hover/card:[transform:translateZ(20px)_rotateX(8deg)_rotateY(-12deg)_scale(1.12)] motion-reduce:transition-none motion-reduce:group-hover/card:[transform:none]"
+                      className="relative w-full h-full max-w-full max-h-full [-webkit-backface-visibility:hidden] object-contain will-change-transform transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] [transform:translateZ(0)_rotateX(0)_rotateY(0)_scale(1)] group-hover/card:[transform:translateZ(20px)_rotateX(8deg)_rotateY(-12deg)_scale(1.12)] group-focus-visible/card:[transform:translateZ(20px)_rotateX(8deg)_rotateY(-12deg)_scale(1.12)] motion-reduce:transition-none motion-reduce:group-hover/card:[transform:none] motion-reduce:group-focus-visible/card:[transform:none]"
                     />
                   </motion.div>
                 </div>
               </motion.div>
             ))}
             </AnimatePresence>
+            )}
           </div>
           {filteredOffers.length === 0 && (
             <p className="text-sm text-muted-foreground mt-4">

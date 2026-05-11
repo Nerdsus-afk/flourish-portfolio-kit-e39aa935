@@ -1,6 +1,8 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, Building2, ExternalLink, Briefcase, GraduationCap, Globe, Filter } from "lucide-react";
+import { track } from "@/lib/analytics";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import bofaLogo from "@/assets/logos/bofa.png";
 import accentureLogo from "@/assets/logos/accenture.png";
@@ -125,11 +127,36 @@ export const About = () => {
     ? { opacity: 1 }
     : { opacity: 1, y: 0 };
 
-  const [detailsCompany, setDetailsCompany] = useState<string | null>(null);
-  const [categoryFilter, setCategoryFilter] = useState<string>(ALL);
-  const [offersReady, setOffersReady] = useState(false);
-  
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  // Initialise from URL (?cat=...&offer=...) so refresh / shared links restore state.
+  const initialCat = searchParams.get("cat") ?? ALL;
+  const initialOffer = searchParams.get("offer");
+  const validInitialCat = useMemo(
+    () => (offers.some((o) => o.category === initialCat) || initialCat === ALL ? initialCat : ALL),
+    [initialCat]
+  );
+  const validInitialOffer = useMemo(
+    () => (initialOffer && offers.some((o) => o.company === initialOffer) ? initialOffer : null),
+    [initialOffer]
+  );
+
+  const [detailsCompany, setDetailsCompany] = useState<string | null>(validInitialOffer);
+  const [categoryFilter, setCategoryFilter] = useState<string>(validInitialCat);
+  const [offersReady, setOffersReady] = useState(false);
+  const lastHoverRef = useRef<{ company: string; t: number }>({ company: "", t: 0 });
+
+  // Sync state -> URL (replace, no history spam).
+  useEffect(() => {
+    const next = new URLSearchParams(searchParams);
+    if (categoryFilter && categoryFilter !== ALL) next.set("cat", categoryFilter);
+    else next.delete("cat");
+    if (detailsCompany) next.set("offer", detailsCompany);
+    else next.delete("offer");
+    if (next.toString() !== searchParams.toString()) {
+      setSearchParams(next, { replace: true });
+    }
+  }, [categoryFilter, detailsCompany, searchParams, setSearchParams]);
   useEffect(() => {
     const t = setTimeout(() => setOffersReady(true), 350);
     return () => clearTimeout(t);
@@ -255,7 +282,10 @@ export const About = () => {
                   <button
                     key={c}
                     type="button"
-                    onClick={() => setCategoryFilter(c)}
+                    onClick={() => {
+                      setCategoryFilter(c);
+                      track({ name: "offers_filter_change", props: { category: c } });
+                    }}
                     aria-pressed={active}
                     className={`px-3 py-1 rounded-full text-xs border transition-colors ${
                       active
@@ -300,12 +330,23 @@ export const About = () => {
                 exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10, scale: 0.98 }}
                 transition={{ duration: 0.45, delay: idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={prefersReducedMotion ? undefined : { y: -6, scale: 1.02, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } }}
-                onClick={() => setDetailsCompany(o.company)}
+                onClick={() => {
+                  track({ name: "offer_card_click", props: { company: o.company, role: o.role, chosen: o.chosen } });
+                  setDetailsCompany(o.company);
+                }}
+                onMouseEnter={() => {
+                  // throttle hover events to avoid spamming on quick mouse passes
+                  const now = Date.now();
+                  if (lastHoverRef.current.company === o.company && now - lastHoverRef.current.t < 1500) return;
+                  lastHoverRef.current = { company: o.company, t: now };
+                  track({ name: "offer_card_hover", props: { company: o.company } });
+                }}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
+                    track({ name: "offer_card_click", props: { company: o.company, role: o.role, chosen: o.chosen, via: "keyboard" } });
                     setDetailsCompany(o.company);
                   }
                 }}

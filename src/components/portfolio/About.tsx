@@ -428,20 +428,16 @@ export const About = () => {
             aria-hidden
             className="hidden lg:flex shrink-0 items-center justify-center w-12 self-stretch"
           >
-            <span className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] text-amber [writing-mode:vertical-rl] rotate-180 select-none drop-shadow-[0_0_10px_hsl(var(--amber)/0.5)] px-1.5 py-3 rounded-full bg-card/70 border border-amber/30 backdrop-blur-sm">
+            <span
+              ref={verticalLabelRef}
+              className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] [writing-mode:vertical-rl] rotate-180 select-none px-1.5 py-3 rounded-full bg-background border border-amber/40 shadow-[0_0_18px_-2px_hsl(var(--amber)/0.4)] text-[hsl(var(--amber-glow))]"
+            >
               <motion.span
                 className="inline-flex"
-                animate={
-                  prefersReducedMotion
-                    ? { y: 0, rotate: 0 }
-                    : {
-                        y: hoveredIdx == null ? 0 : (Math.floor(hoveredIdx / 2) - 0.5) * 28,
-                        rotate: hoveredIdx == null ? 0 : (Math.floor(hoveredIdx / 2) - 0.5) * 30,
-                      }
-                }
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                animate={prefersReducedMotion ? { rotate: VERTICAL_REST } : { rotate: verticalAngle }}
+                transition={{ type: "spring", stiffness: 220, damping: 22 }}
               >
-                <ArrowRight className={`w-4 h-4 -rotate-90 text-amber ${hoveredIdx == null ? "animate-bounce motion-reduce:animate-none" : ""}`} />
+                <ArrowRight className={`w-4 h-4 ${hoveredIdx == null ? "animate-pulse motion-reduce:animate-none" : ""}`} />
               </motion.span>
               <span>Click any card to view details</span>
             </span>

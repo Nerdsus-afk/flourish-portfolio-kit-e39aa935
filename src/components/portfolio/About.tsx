@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, Building2, ExternalLink, Briefcase, GraduationCap, Globe, Filter, MousePointerClick, ArrowRight } from "lucide-react";
+import { CheckCircle2, Building2, ExternalLink, Briefcase, GraduationCap, Globe, Filter } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import bofaLogo from "@/assets/logos/bofa.png";
 import accentureLogo from "@/assets/logos/accenture.png";

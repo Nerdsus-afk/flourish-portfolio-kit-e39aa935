@@ -409,16 +409,10 @@ export const About = () => {
             className="hidden md:flex lg:hidden mt-4 items-center justify-center"
           >
             <span
-              ref={horizontalLabelRef}
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] px-3 py-1.5 rounded-full bg-background border border-amber/40 shadow-[0_0_18px_-2px_hsl(var(--amber)/0.4)] text-[hsl(var(--amber-glow))]"
             >
-              <motion.span
-                className="inline-flex"
-                animate={prefersReducedMotion ? { rotate: HORIZONTAL_REST } : { rotate: horizontalAngle }}
-                transition={{ type: "spring", stiffness: 220, damping: 22 }}
-              >
-                <ArrowRight className={`w-4 h-4 ${hoveredIdx == null ? "animate-pulse motion-reduce:animate-none" : ""}`} />
-              </motion.span>
+              {/* Arrow points UP toward the grid (cards sit above the horizontal label) */}
+              <ArrowRight className="w-4 h-4 -rotate-90 shrink-0" aria-hidden />
               <span>Click any card to view details</span>
             </span>
           </div>
